@@ -7,12 +7,14 @@ class Yumekawa
     attr :skip_count
     attr :char_dict
     attr :output
+    attr :iterator
     def initialize
         @memory = Array.new(256, 0)
         @pointer = 0
-        @loop_memory = Array.new(20)
+        @loop_memory = Array.new(20, 0)
         @loop_pointer = 0
         @skip_count = 0
+        @iterator = 0
         @output = ''
         initializeCharDict
     end
@@ -32,20 +34,28 @@ class Yumekawa
             'ぁ', 'ぃ', 'ぅ', 'ぇ', 'ぉ', 'ゃ', 'ゅ', 'ょ', 'っ', #64
 
             #65
-            '、', '。', '\n', #67
+            '、', '。', "\n", #67
         ]
     end
 
     def exec(source)
         # puts 'ゆめかわじっこう'
         # puts 'そーす：' + source
-        source.split('').each do |char|
-            step(char)
+        @iterator = 0
+        while @iterator < source.length
+            step(source.split('')[@iterator])
+            @iterator += 1
         end
-        incrementMemory
-        # puts @memory
     end
     def step(char)
+    if @skip_count > 0
+        if char === 'ぁ'
+            @skip_count += 1
+        elsif char === 'っ'
+            @skip_count -= 1
+        end
+        return
+    end
         case char
         when 'ゆ'
             incrementMemory
@@ -79,10 +89,19 @@ class Yumekawa
         @pointer -= 1
     end
     def startLoop
-
+        if @memory[@pointer] === 0
+            @skip_count += 1
+        else
+            @loop_memory[@loop_pointer] = @iterator
+            @loop_pointer += 1
+        end
     end
     def endLoop
-
+        if @memory[@pointer] === 0
+            @loop_pointer = @loop_pointer - 1
+        else
+            @iterator = @loop_memory[@loop_pointer - 1]
+        end
     end
     def output
         print decode
