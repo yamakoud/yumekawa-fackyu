@@ -25,7 +25,7 @@ brainf*ckの記号と対応させる感じで組んでいます。
 |---|---|---|---|---|---|---|
 | ゆ | わ | か | ふ | ぁ | っ | め |
 
-## Qiitaから抜粋
+Qiita:https://qiita.com/kyamad/items/a3c50e1eeb3e5c2f4145
 
 ### サンプル
 
