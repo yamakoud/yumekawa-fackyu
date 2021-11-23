@@ -1,4 +1,4 @@
-# ぶれいんふぁっきゅ
+# ゆめかわふぁっきゅ
 
 HIRAGANA is KAWAII!
 
